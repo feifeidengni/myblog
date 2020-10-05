@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width" />
+    <title>文章阅读</title>
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="ICON" th:href="@{/image/logo.jpg}" >
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" />
+    <link rel="stylesheet" th:href="@{/css/master.css}" />
+<!--    <link rel="stylesheet" th:href="@{css/gloable.css}" />-->
+<!--    <link rel="stylesheet" th:href="@{css/nprogress.css}" />-->
+    <link rel="stylesheet" th:href="@{/css/blog.css}" />
+</head>
+<body>
+    <div class="header">
+    </div>
+    <header class="gird-header">
+        <div class="header-fixed">
+            <div class="header-inner">
+                <a href="javascript:void(0)" class="header-logo" id="logo">feifei</a>
+                <nav class="nav" id="nav">
+                    <ul>
+                        <li><a href="myblog/Metas/findAll">首页</a></li>
+                        <li><a href="myblog/contents/findAllContents">博客</a></li>
+                        <li><a href="/myblog/comments/findAllComments">留言</a></li>
+                        <li><a href="myblog/link/findAll">友链</a></li>
+                        <li class="login"><a href="javascript:;">关于我</a></li>
+                        <li th:if="${session.admin} != null"> <a href="javascript:;" id="admin" th:text="${session.admin.getName()}"></a>   </li>
+                    </ul>
+                </nav>
+                <span th:if="${session.admin} != null">
+                    <a href="javascript:;" class="blog-user" >
+                        <img th:src="@{/image/img.png}">
+                    </a>
+                </span>
+                <span th:if="${session.admin} == null">
+                    <a href="javascript:;" class="blog-user" >
+                        <i class="fa fa-qq"></i>
+                    </a>
+                </span>
+                <a class="phone-menu">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="col-content" style="width:100%">
+                <div class="inner">
+                    <article class="article-list">
+                        <input type="hidden" value="@Model.BlogTypeID" id="blogtypeid" />
+                        <section class="article-item">
+                            <aside class="title" style="line-height:1.5;">
+                                <!--/*@thymesVar id="contents" type="java"*/-->
+                                <h4 th:text="${contents.title}"></h4>
+                                <p class="fc-grey fs-14">
+                                    <small>
+                                        作者：<a href="javascript:void(0)" target="_blank" class="fc-link">小小飞</a>
+                                    </small>
+                                    <small class="ml10">围观群众：<i class="readcount" th:text="${contents.look}"></i></small>
+                                    <small class="ml10">更新于 <label th:text="${#dates.format(contents.createDate,'yyyy-MM-dd ')}"></label> </small>
+                                </p>
+                            </aside>
+                            <div class="time mt10" style="padding-bottom:0;">
+                                <span class="day" th:text="${#dates.day(contents.createDate)}"></span>
+                                <span class="month fs-18" th:text="${#dates.month(contents.createDate)}"><span class="fs-14">月</span></span>
+                                <span class="year fs-18 ml10" th:text="${#dates.year(contents.createDate)}"></span>
+                            </div>
+                            <div class="content artiledetail" style="border-bottom: 1px solid #e1e2e0; padding-bottom: 20px;" th:utext="${contents.text}">
+                                <div id="aplayer" style="margin:5px 0"></div>
+                                <h6>延伸阅读</h6>s
+                                <ol class="b-relation"></ol>
+                            </div>
+                            <div class="f-cb"></div>
+                            <div class="mt20 f-fwn fs-24 fc-grey comment" style="border-top: 1px solid #e1e2e0; padding-top: 20px;">
+                            </div>
+                            <fieldset class="layui-elem-field layui-field-title">
+                                <legend>发表评论</legend>
+                                <div class="layui-field-box">
+                                    <div class="textarea-wrap message" id="textarea-wrap">
+                                        <form class="layui-form blog-editor" action="/myblog/comments/saveComments"   method="post">
+                                            <!--/*@thymesVar id="contents" type="java"*/-->
+                                            <input type="hidden" name="parentId" id="articleid" th:value="${contents.cid}" >
+                                            <div class="layui-form-item">
+                                                <textarea name="editorContent" lay-verify="content" id="remarkEditor" placeholder="请输入内容" class="layui-textarea layui-hide"></textarea>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <button class="layui-btn" lay-submit="formReadMessage" lay-filter="formReadMessage">提交留言</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <ul class="blog-comment" id="blog-comment">
+                                <!--/*@thymesVar id="commentsList" type="java"*/-->
+                                <li class="zoomIn article" th:each=" comments : ${commentsList}">
+                                    <div class="comment-parent">
+                                        <a name="remark-1"></a>
+                                        <img th:src="${comments.commImg}" />
+                                        <div class="info">
+                                            <span class="username"  th:text="${comments.author}"></span>
+                                        </div>
+                                        <div class="comment-content" th:utext="${comments.text}"> </div>
+                                        <p class="info info-footer">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            <!--                        <span>四川</span> -->
+                                            <span class="comment-time" th:text="${#dates.format(comments.createDate,'yyyy-MM-dd HH:ss:mm')}"></span>
+                                            <!--                        <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="123">回复</a>-->
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="grid-footer">
+        <div class="footer-fixed">
+            <div class="copyright">
+                <div class="info">
+                    <div class="contact">
+                        <a href="javascript:void(0)" class="github" target="_blank"><i class="fa fa-github"></i></a>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=1790917605&site=qq&menu=yes" class="qq" target="_blank" title="1790917605"><i class="fa fa-qq"></i></a>
+                        <a href="https://mail.163.com/js6/" class="email" target="_blank" title="xxiaohefei@163.com"><i class="fa fa-envelope"></i></a>
+                        <a href="javascript:void(0)" class="weixin"><i class="fa fa-weixin"></i></a>
+                    </div>
+                    <p class="mt05">
+                        小小飞 &copy; 豫ICP备19044068号
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="layui/layui.js"></script>
+    <script src="js/yss/gloable.js"></script>
+    <script src="js/plugins/nprogress.js"></script>
+    <script>NProgress.start();</script>
+    <script src="js/pagemessage.js"></script>
+    <script>NProgress.start();</script>
+    <script src="js/jquery-1.2.6.min.js"></script>
+    <script src="js/wenzi.js"></script>
+    <script src="../layer/mobile/layer.js"></script>
+
+    <script> 
+        $('.blog-user i').on('click', function(){
+            //iframe层-父子操作
+            layer.open({
+                type: 2,
+                area: ['560px', '500px'],
+                fixed: true, //不固定
+                closeBtn: 0,
+                shadeClose: true,
+                skin: 'layui-layer-rim', //加上边框
+                content: './login.html'
+            });
+        });
+        $('.blog-user img').on("click",function(){
+            $.get("http://localhost:/myblog/user/logout",function(data){
+                if(data == "1"){
+                    window.location.reload();
+                }
+            })
+        })
+        layui.use('form', function(){
+            var form = layui.form;
+            console.log(form)
+            form.on('submit(formReadMessage)', function(data){
+                console.log(data)
+                console.log($("#admin").text())
+                if($("#admin").text() == ''){
+                    layer.msg('未登录，请先登陆再留言', {
+                        offset: 't',
+                        anim: 6
+                    });
+                    return false;
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      label: master
+      name: Comments
+      profile: dev
+      uri: http://localhost:7003

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feifei.myblog.repository.CommentsRepository">
+    <sql id="commAll">
+        commId,
+        author,
+        TEXT,
+        parentId,
+        createDate,
+        commImg
+    </sql>
+
+    <!-- 查询所有评论  -->
+    <select id="findAll" resultType="comments">
+        SELECT
+        <include refid="commAll"></include>
+        FROM
+        blog.comments
+        WHERE parentId IS  NULL
+        ORDER BY createDate DESC
+    </select>
+    <!-- 根据文章id查询评论  -->
+    <select id="findByParentId" resultType="comments">
+        SELECT
+        <include refid="commAll"></include>
+         FROM comments
+         WHERE parentId = #{parentId}
+        ORDER BY createDate DESC
+    </select>
+
+    <!-- 添加 -->
+    <insert id="saveComments">
+        INSERT INTO blog.comments
+        (author,
+        TEXT,
+        parentId,
+        createDate,
+        commImg
+        )
+        VALUES
+        (#{author},
+        #{text},
+        #{parentId},
+        #{createDate},
+        #{commImg}
+        );
+    </insert>
+
+    <!-- 删除评论  -->
+    <delete id="deleteComments">
+        DELETE FROM blog.comments
+            WHERE
+            commId = #{commId} ;
+    </delete>
+
+
+</mapper>

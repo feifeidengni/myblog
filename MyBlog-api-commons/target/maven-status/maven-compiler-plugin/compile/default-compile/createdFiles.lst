@@ -1,0 +1,6 @@
+com\feifei\myblog\pojo\Admin.class
+com\feifei\myblog\pojo\Metas.class
+com\feifei\myblog\pojo\Comments.class
+com\feifei\myblog\pojo\Contents.class
+com\feifei\myblog\pojo\Link.class
+com\feifei\myblog\pojo\Label.class

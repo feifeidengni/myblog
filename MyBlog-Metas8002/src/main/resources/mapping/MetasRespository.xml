@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feifei.myblog.repository.MetasRepository">
+
+    <sql id="metasAll">
+        `mid`,
+        `name`,
+        mimg,
+        url, 
+        `type`,
+        contentId,
+        description,
+        createDate
+    </sql>
+
+    <!-- 查询所有项目  -->
+    <select id="findAll" resultType="metas">
+        SELECT
+        <include refid="metasAll"></include>
+        FROM
+        blog.metas
+    </select>
+    <!-- 根据id查询当前项目 -->
+    <select id="findBymid" parameterType="int" resultType="metas">
+        SELECT
+        <include refid="metasAll"></include>
+        FROM
+        blog.metas
+        WHERE `mid` = #{mid}
+    </select>
+
+    <!-- 添加项目  -->
+    <insert id="saveMetas" parameterType="metas">
+        INSERT INTO blog.metas
+        (NAME,
+        mimg,
+        url,
+        TYPE,
+        contentId,
+        description,
+        createDate
+        )
+        VALUES
+        (#{name},
+        #{mimg},
+        #{url},
+        #{type},
+        #{contentId},
+        #{description},
+        #{createDate}
+        );
+    </insert>
+    <!-- 修改项目 -->
+    <update id="updateMetas" parameterType="metas">
+        UPDATE blog.metas
+        <set>
+            <if test="name  != null and name  != '' "> name = #{name} ,  </if>
+            <if test="mimg  != null and mimg  != '' "> mimg = #{mimg} ,  </if>
+            <if test="url  != null and url  != '' "> url = #{url} ,  </if>
+            <if test="type  != null and type  != '' "> type = #{type} ,  </if>
+            <if test="contentId  != null and contentId  != '' "> contentId = #{contentId} ,  </if>
+            <if test="description  != null and description  != '' "> description = #{description} ,  </if>
+            <if test="createDate  != null and createDate  != '' "> createDate = #{createDate} ,  </if>
+        </set>
+        WHERE
+        mid = #{mid} ;
+    </update>
+    <!-- 删除项目 -->
+    <delete id="deletetMetas" parameterType="int" >
+        DELETE FROM blog.metas
+        WHERE
+        mid = #{mid} ;
+    </delete>
+
+</mapper>

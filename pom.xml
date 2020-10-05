@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.feifei</groupId>
+    <artifactId>MyBlog</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <!-- 模块 -->
+    <modules>
+        <module>MyBlog-Eureka-7001</module>
+        <module>MyBlog-api-commons</module>
+        <module>MyBlog-User8001</module>
+        <module>MyBlog-Config-Center7003</module>
+        <module>MyBlog-Metas8002</module>
+        <module>MyBlog-Contents8003</module>
+        <module>MyBlog-Label8004</module>
+        <module>MyBlog-Comments8005</module>
+        <module>MyBlog-Link8006</module>
+        <module>MyBlog-Client80</module>
+
+    </modules>
+    <!-- pom总父工程  -->
+    <packaging>pom</packaging>
+
+    <!-- 设置通用版本 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.version>5.6.2</junit.version>
+        <lombok.version>1.8.12</lombok.version>
+        <log4j.version>2.12.1</log4j.version>
+        <mysql.version>5.1.47</mysql.version>
+        <dbcp.version>1.4</dbcp.version>
+        <mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring boot 2.2.2  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.2.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--  spring cloud Hoxton.SR1  -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version> Hoxton.SR1 </version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${dbcp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

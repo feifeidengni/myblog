@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MyBlog-Metas8002" />
+        <module name="MyBlog-Config-Center7003" />
+        <module name="MyBlog-Label8004" />
+        <module name="MyBlog-Eureka-7001" />
+        <module name="MyBlog-User8001" />
+        <module name="MyBlog-Link8006" />
+        <module name="MyBlog-Comments8005" />
+        <module name="MyBlog-Client80" />
+        <module name="MyBlog-Contents8003" />
+        <module name="MyBlog-api-commons" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

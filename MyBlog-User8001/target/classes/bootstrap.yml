@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      label: master #分支名
+      name: User    #文件前缀
+      profile: dev   #文件后缀
+      uri: http://localhost:7003  #配置中心地址
+

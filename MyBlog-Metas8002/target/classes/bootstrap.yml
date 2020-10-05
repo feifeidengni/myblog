@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:7003  #访问的配置中心地址
+      label: master #分支名称
+      name: Metas  #配置文件的前缀
+      profile: dev #配置文件的后缀

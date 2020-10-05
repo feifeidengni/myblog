@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/MyBlog-Client80/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Client80/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Comments8005/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Comments8005/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Config-Center7003/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Config-Center7003/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Contents8003/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Contents8003/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Eureka-7001/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Eureka-7001/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Label8004/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Label8004/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Link8006/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Link8006/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Metas8002/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-Metas8002/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-User8001/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-User8001/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-api-commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MyBlog-api-commons/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

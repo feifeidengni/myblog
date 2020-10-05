@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      label: master
+      name: Client
+      profile: dev
+      uri: http://localhost:7003
+  thymeleaf:
+    cache: false

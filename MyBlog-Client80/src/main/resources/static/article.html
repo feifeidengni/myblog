@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width" />
+    <meta name="author" content="www.yanshisan.cn" />
+    <meta name="robots" content="all" />
+	<title>文章</title>
+	<base th:href="${#request.getContextPath()}+'/'">
+	<link rel="ICON" th:href="@{../image/logo.jpg}" >
+	<link rel="SHORTCUT ICON" th:href="@{../image/logo.jpg}">
+    <link rel="stylesheet" th:href="@{../font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{../layui/css/layui.css}" />
+    <link rel="stylesheet" th:href="@{../css/master.css}" />
+    <link rel="stylesheet" th:href="@{../css/gloable.css}" />
+    <link rel="stylesheet" th:href="@{../css/nprogress.css}" />
+	<link rel="stylesheet" th:href="@{../css/blog.css}" />
+
+
+</head>
+<body>
+<header class="gird-header">
+	<div class="header-fixed">
+		<div class="header-inner">
+			<a href="javascript:void(0)" class="header-logo" id="logo">feifei</a>
+			<nav class="nav" id="nav">
+				<ul>
+					<li><a href="myblog/Metas/findAll">首页</a></li>
+					<li><a href="myblog/contents/findAllContents">博客</a></li>
+					<li><a href="/myblog/comments/findAllComments">留言</a></li>
+					<li><a href="myblog/link/findAll">友链</a></li>
+					<li class="login"><a href="javascript:;">关于我</a></li>
+					<li th:if="${session.admin} != null"> <a href="javascript:;" id="admin" th:text="${session.admin.getName()}"></a>   </li>
+				</ul>
+			</nav>
+			<span th:if="${session.admin} != null">
+				<a href="javascript:;" class="blog-user" >
+					<img th:src="@{/image/img.png}">
+				</a>
+			</span>
+			<span th:if="${session.admin} == null">
+				<a href="javascript:;" class="blog-user" >
+					<i class="fa fa-qq"></i>
+				</a>
+			</span>
+			<a class="phone-menu">
+				<i></i>
+				<i></i>
+				<i></i>
+			</a>
+		</div>
+	</div>
+</header>
+<div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+		    <div class="col-content">
+		        <div class="inner">
+		            <article class="article-list bloglist" id="LAY_bloglist" >
+						<!--/*@thymesVar id="contentsList" type="java"*/-->
+						<section class="article-item zoomIn article"  th:each="content : ${contentsList}">
+							<div class="fc-flag" th:if="${content.stick != 0}">置顶</div>
+							<h5 class="title">       
+								<span class="fc-blue">【原创】</span>
+								<a th:href="@{/myblog/contents/uplook(cid=${content.cid})}"> <span th:text="${content.title}"></span>
+									<span th:text="${content.cid}"></span>
+								</a>
+							</h5>
+							<div class="time">       
+								<span class="day" th:text="${#dates.day(content.createDate)}"></span>
+								<span class="month fs-18" th:text="${#dates.month(content.createDate)}"><span class="fs-14">月</span></span>
+								<span class="year fs-18 ml10" th:text="${#dates.year(content.createDate)}"></span>
+							</div>   
+							<div class="content">       
+								<a th:href="@{/myblog/contents/uplook(cid=${content.cid})}" class="cover img-light">
+									<img src="image/cover/2019121192339714.png">       
+								</a>
+								<span th:text="${content.slug}"></span>
+							</div>
+							<div class="read-more">       
+								<a th:href="@{/myblog/contents/uplook(cid=${content.cid})}" class="fc-black f-fwb">继续阅读</a>
+							</div>    
+							<aside class="f-oh footer">       
+								<div class="f-fl tags">           
+									<span class="fa fa-tags fs-16"></span>           
+									<a class="tag" th:text="${content.label.labelName}">  </a>
+								</div>       
+								<div class="f-fr">           
+									<span class="read">               
+										<i class="fa fa-eye fs-16"></i>               
+										<i class="num" th:text="${content.look}"></i>
+									</span>           
+									<span class="ml20">               
+										<i class="fa fa-comments fs-16"></i>               
+										<a href="javascript:void(0)" class="num fc-grey">1</a>           
+									</span>       
+								</div>   
+							</aside>
+						</section>
+		            </article>
+		        </div>
+		    </div>
+		    <div class="col-other">
+		        <div class="inner">
+					<div class="other-item" id="categoryandsearch">
+			    		<div class="search">
+					        <label class="search-wrap">
+					            <input type="text" id="searchtxt" placeholder="输入文章名称关键字" />
+					            <span class="search-icon">
+					                <i class="fa fa-search"></i>
+					            </span>
+					        </label>
+			        		<ul class="search-result"></ul>
+			    		</div>
+			    		<ul class="category mt20" id="category" >
+							<li data-index="0" class="slider"></li>
+				        	<li data-index="1">
+								<a th:href="@{/myblog/contents/findAllContents}">全部文章</a>
+							</li>
+				            <!--/*@thymesVar id="labelList" type="java"*/-->
+				            <li th:data-index="${labelStat.count}+1" th:each=" labelname, labelStat : ${labelList}">
+								<a th:href="@{/myblog/contents/fingByLabelId(labelId=${labelname.id})}" th:text="${labelname.labelName}"></a>
+							</li>
+			    		</ul>
+					</div>
+					<!--右边悬浮 平板或手机设备显示-->
+					<div class="category-toggle"><i class="layui-icon">&#xe603;</i></div>
+					<div class="article-category">
+					    <div class="article-category-title">分类导航</div>
+					            <!--/*@thymesVar id="labelList" type="java"*/-->
+					            <a th:href="@{/myblog/contents/fingByLabelId(labelId=${labelname.id})}" th:each=" labelname, labelStat : ${labelList}">
+									<span th:text="${labelname.labelName}"></span>
+								</a>
+					    <div class="f-cb"></div>
+					</div>
+					<!--遮罩-->
+					<div class="blog-mask animated layui-hide"></div>
+					<div class="other-item">
+					    <h5 class="other-item-title">热门文章</h5>
+					    <div class="inner">
+					        <ul class="hot-list-article">
+					                <!--/*@thymesVar id="lookList" type="java"*/-->
+					                <li th:each="lookList : ${lookList}">
+										<a href="#" th:text="${lookList.title}"></a>
+									</li>
+
+					        </ul>
+					    </div>
+					</div>
+					<div class="other-item">
+					    <h5 class="other-item-title">置顶推荐</h5>
+					    <div class="inner">
+					        <ul class="hot-list-article">
+					                <!--/*@thymesVar id="contentsList" type="java"*/-->
+					                <li th:each=" content : ${contentsList} ">
+										<span th:if="${content.stick}==1"><a href="/Blog/Read/16" th:text="${content.title}"></a></span>
+									</li>
+					        </ul>
+					    </div>
+					</div>
+<!--					<div class="other-item">-->
+<!--					    <h5 class="other-item-title">最近访客</h5>-->
+<!--					    <div class="inner">-->
+<!--					        <dl class="vistor">-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/72388EA977643E8F97111222675720B1/100"><cite>Anonymous</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/342F777E313DDF5CCD6E3E707BB0770B/100"><cite>Dekstra</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/EA5D00A72C0C43ECD8FC481BD274DEEC/100"><cite>惜i</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/EF18CEC98150D2442183AA30F05AAD7B/100"><cite>↙Aㄨ计划 ◆莪↘</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/3D8D91AD2BAFD36F5AC494DA51E270E6/100"><cite>.</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/B745A110DAB712A0E6C5D0B633E905D3/100"><cite>Lambert.</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/E9BA3A2499EC068B7917B9EF45C4D13C/100"><cite>64ღ</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/09F92966169272DD7DD9999E709A0204/100"><cite>doBoor</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/59991D53192643A1A651383847332EB6/100"><cite>毛毛小妖</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/FF34F311DDC43E2AF63BE897BCA24F05/100"><cite>NULL</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/59AA25A7627284AE62C8E6EBDC6FE417/100"><cite>吓一跳</cite></a></dd>-->
+<!--					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/28B021E0F5AF0A4B9B781A24329FE897/100"><cite>如初</cite></a></dd>-->
+<!--					        </dl>-->
+<!--					    </div>-->
+<!--					</div>-->
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+    <footer class="grid-footer">
+        <div class="footer-fixed">
+            <div class="copyright">
+                <div class="info">
+                    <div class="contact">
+                        <a href="javascript:void(0);" class="github" target="_blank"><i class="fa fa-github"></i></a>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=1790917605&site=qq&menu=yes" class="qq" target="_blank" title="1790917605"><i class="fa fa-qq"></i></a>
+                        <a href="https://mail.163.com/js6/" class="email" target="_blank" title="xxiaohefei@163.com"><i class="fa fa-envelope"></i></a>
+                        <a href="javascript:void(0)" class="weixin"><i class="fa fa-weixin"></i></a>
+                    </div>
+                    <p class="mt05">
+						小小飞 &copy; 豫ICP备19044068号
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script th:src="@{../layui/layui.js}"></script>
+    <script th:src="@{../js/yss/gloable.js}"></script>
+    <script th:src="@{../js/plugins/nprogress.js}"></script>
+	<script>NProgress.start();</script>
+	 <script th:src="@{../js/yss/article.js}"></script>
+	 <script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js}"></script>
+	 <script th:src="@{../layer/mobile/layer.js}"></script>
+    <script> 
+        window.onload = function () {
+            NProgress.done();
+        };
+		$('.blog-user i').on('click', function(){
+			//iframe层-父子操作
+			layer.open({
+				type: 2,
+				area: ['560px', '500px'],
+				fixed: true, //不固定
+				closeBtn: 0,
+				shadeClose: true,
+				skin: 'layui-layer-rim', //加上边框
+				content: './login.html'
+			});
+		});
+		$('.blog-user img').on("click",function(){
+			$.get("http://localhost:/myblog/user/logout",function(data){
+				if(data == "1"){
+					window.location.reload();
+				}
+			})
+		})
+	</script>
+	
+</body>
+</html>

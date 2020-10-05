@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feifei.myblog.repository.ContentRepository">
+    <sql id="ContentsAll">
+        cid,
+        title,
+        slug,
+        text,
+        type,
+        labelId,
+        look,
+        createDate,
+        stick
+    </sql>
+    <resultMap id="contentsMap" type="contents">
+        <id column="cid" property="cid" />
+        <result column="title" property="title"></result>
+        <result column="slug" property="slug"></result>
+        <result column="text" property="text"></result>
+        <result column="type" property="type"></result>
+        <result column="look" property="look"></result>
+        <result column="createDate" property="createDate"></result>
+        <association property="label"  javaType="label" select="com.feifei.myblog.repository.LabelRepository.findById" column="labelId" />
+    </resultMap>
+
+    <!-- 查询所有文章  -->
+    <select id="findAll" resultMap="contentsMap">
+            SELECT
+            <include refid="ContentsAll" />
+            FROM contents
+         ORDER BY stick DESC
+    </select>
+    <!--  根据文章标题查询文章  -->
+    <select id="findByTitle" resultMap="contentsMap">
+        SELECT
+        <include refid="ContentsAll" />
+        FROM contents
+        <where>
+            <if test="title != null ">
+                title LIKE CONCAT('%',#{param1},'%')
+            </if>
+        </where>
+        ORDER BY stick DESC
+    </select>
+    <!-- 根据分类id查询 -->
+    <select id="findByLabelId" resultMap="contentsMap">
+        SELECT
+        <include refid="ContentsAll" />
+        FROM contents
+        where labelId = #{param1}
+        ORDER BY stick DESC
+    </select>
+    <!-- 根据点击率查询热门文章  -->
+    <select id="findByLook" resultType="contents">
+        SELECT cid,title FROM contents ORDER BY look DESC LIMIT 0,5
+    </select>
+    <!-- 根据文章id查询文章  -->
+    <select id="findBycId" resultType="contents">
+        SELECT
+        <include refid="ContentsAll" />
+        FROM contents
+        where cid = #{cid}
+    </select>
+
+    <!--  添加文章  -->
+    <insert id="saveContents" parameterType="contents">
+        INSERT INTO blog.contents
+        (title,
+        slug,
+        text,
+        type,
+        labelId,
+        look,
+        createDate
+        )
+        VALUES
+        (#{title},
+        #{slug},
+        #{text},
+        #{type},
+        #{label.id},
+        #{look},
+        #{createDate}
+        );
+    </insert>
+    <!-- 点击文章增加点击率 -->
+    <update id="updateLook" >
+         UPDATE blog.contents
+         set
+         look = look+1
+         WHERE
+         cid = #{cid} ;
+    </update>
+    <!-- 更新文章信息  -->
+    <update id="updateContents" parameterType="contents">
+        UPDATE blog.contents
+        <set>
+            <if test="title != null and title != '' ">  title = #{title} ,   </if>
+            <if test="slug != null and slug != '' "> slug = #{slug} ,  </if>
+            <if test="text != null and text != '' ">text = #{text}, </if>
+            <if test="type != null and type != '' "> type = #{type}, </if>
+            <if test="label.id != null and label.id != 0 "> labelId = #{label.id}, </if>
+            <if test="look != null and look != 0 "> look = #{look}, </if>
+            <if test="createDate != null">createDate = #{createDate},</if>
+        </set>
+        WHERE
+        cid = #{cid} ;
+    </update>
+    <!-- 删除文章  -->
+    <delete id="deleteContents" parameterType="int" >
+        DELETE FROM blog.contents
+        WHERE
+        cid = #{param1} ;
+    </delete>
+</mapper>

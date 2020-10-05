@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feifei.myblog.repository.LinkRepository">
+
+    <!-- 查询所有友链  -->
+    <select id="findAll" resultType="link">
+        SELECT 	id,
+        name ,
+        imgURL,
+        sketch,
+        url
+        FROM
+        blog.link
+    </select>
+    <!-- 添加友链 -->
+    <insert id="saveLink" >
+        INSERT INTO blog.link
+        (name,
+        imgURL,
+        sketch,
+        url
+        )
+        VALUES
+        (#{name},
+        #{imgURL},
+        #{sketch},
+        #{url}
+        );
+    </insert>
+
+    <!-- 更新友链  -->
+    <update id="updateLink">
+        UPDATE blog.link
+        SET
+        NAME = #{name} ,
+        imgURL = #{imgURL} ,
+        sketch = #{sketch},
+        url=#{url}
+        WHERE
+        id = #{id} ;
+    </update>
+    <!-- 删除友链 -->
+    <delete id="deleteLink" >
+        DELETE FROM blog.link
+        WHERE
+        id = #{id} ;
+    </delete>
+
+
+</mapper>
